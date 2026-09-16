@@ -1,6 +1,6 @@
 /** Shared external links and static copy used across the site. */
 
-export const GITHUB_URL = "https://github.com/stardexhq/Stardex";
+export const GITHUB_URL = "https://github.com/stardexhq";
 export const STELLAR_URL = "https://stellar.org";
 
 export const NAV_LINKS = [

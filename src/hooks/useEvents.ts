@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { EventQuery, StardexEvent } from "@stardex/types";
+import type { EventQuery, StardexEvent } from "@stardex/sdk";
 import { client } from "../lib/client";
 import { PAGE_SIZE } from "../config";
 

@@ -1,10 +1,18 @@
 {
   "name": "@stardex/frontend",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Stardex web app: invoices, payments and the event explorer.",
   "license": "Apache-2.0",
-  "description": "Stardex dashboard — browse indexed contracts and events.",
   "type": "module",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stardexhq/stardex-frontend.git"
+  },
+  "packageManager": "pnpm@10.26.2",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@tailwindcss/oxide", "esbuild"]
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,8 +21,7 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
-    "@stardex/sdk": "workspace:*",
-    "@stardex/types": "workspace:*",
+    "@stardex/sdk": "^0.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.1.1"
@@ -22,7 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@tailwindcss/vite": "^4.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^4.3.4",
@@ -31,7 +38,7 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.5.0",
+    "typescript": "^5.9.0",
     "typescript-eslint": "^8.11.0",
     "vite": "^6.0.0"
   }

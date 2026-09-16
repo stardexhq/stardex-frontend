@@ -1,4 +1,4 @@
-import type { StardexEvent } from "@stardex/types";
+import type { StardexEvent } from "@stardex/sdk";
 import { formatDateTime, summarizeFields, timeAgo, truncateMiddle } from "../lib/format";
 
 interface EventTableProps {

@@ -1,50 +1,56 @@
-# Stardex Dashboard
+# stardex-frontend
 
-The web dashboard for browsing data Stardex has indexed — built with
-**React 19 + Vite + Tailwind v4**. It reads from a running Stardex API through
-the typed [`@stardex/sdk`](../packages/sdk) client.
+The web app for [Stardex](https://github.com/stardexhq/stardex), open source payment reconciliation for businesses paid on Stellar. Built with React 19, Vite and Tailwind v4.
 
-## Run it
+It runs entirely in the browser and talks to [stardex-backend](https://github.com/stardexhq/stardex-backend) through [@stardex/sdk](https://github.com/stardexhq/stardex-sdk).
 
-From the repo root, install workspace dependencies once:
+Live demo: [stardex.onrender.com](https://stardex.onrender.com)
+
+## What's here today
+
+- **Home page** explaining the project.
+- **Event explorer**: a filterable, paginated table of indexed events (by contract ID and event kind).
+
+Invoice and payment pages are coming next as part of the reconciliation work.
+
+## Run it locally
+
+You need Node 25 (see `.node-version`) and a running backend.
 
 ```bash
+cp .env.example .env    # points at http://localhost:8080 by default
 pnpm install
-```
-
-Then start the dev server:
-
-```bash
-pnpm --filter @stardex/frontend dev
-```
-
-The dashboard expects the API at `http://localhost:8080` (see
-[`api/`](../api)). Point it elsewhere with an env var:
-
-```bash
-VITE_STARDEX_API=https://my-stardex-api.example pnpm --filter @stardex/frontend dev
+pnpm dev                # http://localhost:5173
 ```
 
 ## Scripts
 
 ```bash
-pnpm --filter @stardex/frontend dev        # dev server
-pnpm --filter @stardex/frontend build      # typecheck + production build
-pnpm --filter @stardex/frontend preview    # preview the production build
-pnpm --filter @stardex/frontend lint       # eslint
-pnpm --filter @stardex/frontend typecheck  # tsc, no emit
+pnpm dev         # dev server
+pnpm build       # typecheck + production build into dist/
+pnpm preview     # serve the production build
+pnpm lint        # eslint
+pnpm typecheck   # tsc, no emit
 ```
 
-## What's here
+## Configuration
 
-- **Event explorer** — a filterable (by contract ID and event kind), paginated
-  table of indexed events, in [`src/components/EventExplorer.tsx`](src/components/EventExplorer.tsx).
+| Variable | Default | Purpose |
+|---|---|---|
+| `VITE_STARDEX_API` | `http://localhost:8080` | Base URL of the Stardex backend |
 
-## Good first issues
+## Deploy
 
-The explorer is the foundation; these views build on it and are open for
-contributors (see [`docs/BACKLOG.md`](../docs/BACKLOG.md), milestone M4):
+It builds to static files. On Render: a Static Site from this repo, build command `pnpm install && pnpm build`, publish directory `dist`, a rewrite from `/*` to `/index.html`, and `VITE_STARDEX_API` set to your backend URL.
 
-- **Contract list view** — what's indexed and its sync status.
-- **Contract detail + chart** — a per-contract page with volume over time.
-- **Polish** — richer empty/loading/error states and responsive layout.
+## Related repos
+
+| Repo | What it is |
+|---|---|
+| [stardex](https://github.com/stardexhq/stardex) | Rust engine and database schema |
+| [stardex-backend](https://github.com/stardexhq/stardex-backend) | HTTP API this app reads from |
+| [stardex-sdk](https://github.com/stardexhq/stardex-sdk) | TypeScript client used by this app |
+
+## License
+
+Apache-2.0

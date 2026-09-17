@@ -29,28 +29,6 @@ body {
   background-attachment: fixed;
 }
 
-/* Gradient text used for hero headlines and accents. */
-.text-gradient {
-  background: linear-gradient(120deg, #c4b5fd, #7c9cff 55%, #38bdf8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Faint grid backdrop for hero / feature sections. */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, rgba(124, 156, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(124, 156, 255, 0.06) 1px, transparent 1px);
-  background-size: 3rem 3rem;
-}
-
-.card-glow {
-  box-shadow:
-    0 0 0 1px rgba(124, 156, 255, 0.08),
-    0 24px 60px -30px rgba(124, 156, 255, 0.45);
-}
-
 /* Keyboard focus is always visible, on every interactive element. */
 :focus-visible {
   outline: 2px solid var(--color-accent);

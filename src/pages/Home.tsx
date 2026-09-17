@@ -1,283 +1,254 @@
-import type { ReactNode } from "react";
-import {
-  Badge,
-  ExternalButton,
-  PrimaryLink,
-  SectionHeading,
-} from "../components/ui";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { StatusBadge } from "../components/app";
 import { GITHUB_URL } from "../site";
+import { buttonGhost, buttonPrimary } from "../lib/styles";
 
 export function Home() {
   return (
     <>
       <Hero />
-      <Problem />
-      <Features />
-      <Pipeline />
-      <CallToAction />
+      <HowItWorks />
+      <NeedsAPerson />
+      <Repos />
     </>
   );
 }
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-[var(--color-border)] bg-grid">
-      <div className="mx-auto max-w-6xl px-6 pb-20 pt-20 text-center sm:pt-28">
-        <div className="mb-6 flex justify-center">
-          <Badge>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Open source · Apache-2.0 · Built on Stellar
-          </Badge>
-        </div>
-
-        <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
-          The open-source indexer for{" "}
-          <span className="text-gradient">Stellar &amp; Soroban</span>
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-2xl text-base text-slate-400 sm:text-lg">
-          Stellar&apos;s RPC only keeps a short window of history, then prunes it. Stardex
-          captures every contract event durably and makes all of chain history queryable
-          through a REST API, a typed SDK, and this dashboard. Self-hostable, no exotic
-          dependencies.
-        </p>
-
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryLink to="/explorer">Explore live events →</PrimaryLink>
-          <ExternalButton href={GITHUB_URL}>View on GitHub</ExternalButton>
-        </div>
-
-        <TerminalPreview />
-      </div>
-    </section>
-  );
-}
-
-function TerminalPreview() {
-  return (
-    <div className="card-glow mx-auto mt-16 max-w-2xl overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/70 text-left">
-      <div className="flex items-center gap-2 border-b border-[var(--color-border)] px-4 py-2.5">
-        <span className="h-3 w-3 rounded-full bg-rose-500/80" />
-        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
-        <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
-        <span className="ml-2 text-xs text-slate-500">stardex index</span>
-      </div>
-      <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed text-slate-300">
-        <span className="text-slate-500">$ </span>stardex index CDLZ…CYSC
-        {"\n"}storage: Postgres (events + resumable cursor)
-        {"\n"}indexing CDLZ… via soroban-testnet.stellar.org …
-        {"\n\n"}
-        <span className="text-[var(--color-accent)]">kind</span>     | fields
-        {"\n"}---------+------------------------------------------------
-        {"\n"}
-        <span className="text-emerald-300">transfer</span> |{" "}
-        {`{"from":"GBSO…","to":"GCML…","amount":"5000000"}`}
-        {"\n"}
-        <span className="text-slate-400">raw</span>      |{" "}
-        {`{"topics":["AAAADwAAAANmZWUA", …],"data":"…"}`}
-      </pre>
-    </div>
-  );
-}
-
-const QUESTIONS = [
-  "Show me every payment this user has made over the last 6 months.",
-  "What was this contract's volume, day by day?",
-  "List all the streams, swaps, and mints this contract has ever emitted.",
-];
-
-function Problem() {
-  return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
-      <SectionHeading
-        eyebrow="The problem"
-        title="Chain history disappears, and everyone rebuilds the same plumbing"
-        subtitle="Stellar's RPC is built for recent data. It keeps a short window, then records over its own footage. That makes the most common questions in any app surprisingly hard to answer:"
-      />
-      <div className="mx-auto mt-10 grid max-w-3xl gap-3">
-        {QUESTIONS.map((q) => (
-          <div
-            key={q}
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]/40 px-5 py-4 text-sm text-slate-300"
-          >
-            <span className="mr-2 text-[var(--color-accent)]">“</span>
-            {q}
+    <section className="border-b border-[var(--color-border)]">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 sm:py-24 lg:grid-cols-[1.05fr_1fr]">
+        <div>
+          <h1 className="text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl">
+            Know which invoice every Stellar payment paid.
+          </h1>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
+            Stardex gives each invoice its own payment reference, watches your Stellar address,
+            and matches every payment that arrives to the invoice it pays. The ones it cannot
+            match wait for you, with the reason.
+          </p>
+          <p className="mt-4 max-w-xl text-sm text-slate-400">
+            Open source and self hosted. It only reads the network, so it never holds your keys
+            or your money.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/invoices" className={buttonPrimary}>
+              Open invoices
+            </Link>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={buttonGhost}>
+              Read the code
+            </a>
           </div>
-        ))}
-      </div>
-      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-slate-400">
-        Today every Soroban team rebuilds the same indexing service from scratch. Stardex is
-        that plumbing, built once, as a tool everyone can use and self-host.
-      </p>
-    </section>
-  );
-}
-
-interface Feature {
-  title: string;
-  body: string;
-  status: "live" | "soon";
-}
-
-const FEATURES: Feature[] = [
-  {
-    title: "Live event streaming",
-    body: "Pages through a contract's events from Stellar RPC and polls for new ones, with retry/backoff through transient outages.",
-    status: "live",
-  },
-  {
-    title: "Resumable ingestion",
-    body: "The cursor is persisted to Postgres, so a restart continues exactly where it left off, verified end-to-end on testnet.",
-    status: "live",
-  },
-  {
-    title: "Real decoders",
-    body: "SAC / token transfers are decoded from raw XDR into typed { from, to, amount } records. New contracts = new decoders.",
-    status: "live",
-  },
-  {
-    title: "Durable Postgres store",
-    body: "Every event is written to Postgres; events without a decoder yet are kept raw, so nothing is ever lost.",
-    status: "live",
-  },
-  {
-    title: "REST API",
-    body: "GET /events serves indexed data with filters (contract, kind, ledger range) and cursor pagination; /health reports DB status.",
-    status: "live",
-  },
-  {
-    title: "Typed SDK & GraphQL",
-    body: "A typed @stardex/sdk client and a GraphQL endpoint so apps consume history in a few lines. In active development.",
-    status: "soon",
-  },
-];
-
-function Features() {
-  return (
-    <section className="border-y border-[var(--color-border)] bg-[var(--color-surface)]/20">
-      <div className="mx-auto max-w-6xl px-6 py-20">
-        <SectionHeading
-          eyebrow="What works today"
-          title="A real engine, running against live testnet"
-          subtitle="Stardex is in active development, but the core ingestion pipeline is real and battle-tested end-to-end."
-        />
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((f) => (
-            <FeatureCard key={f.title} feature={f} />
-          ))}
         </div>
+        <SettlementDemo />
       </div>
     </section>
   );
 }
 
-function FeatureCard({ feature }: { feature: Feature }) {
+type Phase = "waiting" | "arriving" | "settled";
+
+/**
+ * The one animated moment on the page: a payment arrives with its memo and the
+ * invoice it names turns paid. Plays once; with reduced motion it starts settled.
+ */
+function SettlementDemo() {
+  const [phase, setPhase] = useState<Phase>(() =>
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "settled"
+      : "waiting",
+  );
+
+  useEffect(() => {
+    if (phase !== "waiting") return;
+    const arrive = setTimeout(() => setPhase("arriving"), 700);
+    const settle = setTimeout(() => setPhase("settled"), 1900);
+    return () => {
+      clearTimeout(arrive);
+      clearTimeout(settle);
+    };
+    // Runs once on mount; later phases are driven by these timers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const arrived = phase !== "waiting";
+  const settled = phase === "settled";
+
   return (
-    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/50 p-5 transition hover:border-[var(--color-accent)]/40">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-semibold">{feature.title}</h3>
-        <StatusTag status={feature.status} />
+    <div className="relative" aria-label="Example: a payment arrives and its invoice is marked paid">
+      <div
+        className={`rounded-lg border border-[var(--color-border)] bg-[var(--color-base)] p-4 transition-all duration-700 ease-out motion-reduce:transition-none ${
+          arrived ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+        }`}
+      >
+        <p className="text-xs text-slate-500">Payment arrived on Stellar</p>
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2">
+          <p className="tabular-nums">
+            <span className="text-xl font-semibold">1,250.00</span>{" "}
+            <span className="text-slate-400">USDC</span>
+          </p>
+          <p className="text-sm text-slate-400">
+            memo <span className="font-mono text-slate-200">100001</span>
+          </p>
+        </div>
+        <p className="mt-1 font-mono text-xs text-slate-500">from GBRX…Q4KD</p>
       </div>
-      <p className="text-sm leading-relaxed text-slate-400">{feature.body}</p>
+
+      <div
+        aria-hidden
+        className={`mx-auto h-8 w-px transition-colors duration-500 motion-reduce:transition-none ${
+          settled ? "bg-[#4fd1a5]" : "bg-[var(--color-border)]"
+        }`}
+      />
+
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/70 p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold">INV-100001</p>
+            <p className="text-sm text-slate-400">Acme Ltd, brand identity</p>
+          </div>
+          <StatusBadge status={settled ? "paid" : "open"} />
+        </div>
+        <p className="mt-5 text-sm text-slate-400">Received</p>
+        <p className="tabular-nums">
+          <span className="text-3xl font-bold tracking-tight">{settled ? "1,250.00" : "0.00"}</span>
+          <span className="text-slate-400"> of 1,250.00 USDC</span>
+        </p>
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--color-surface-2)]">
+          <div
+            className={`h-full bg-[#4fd1a5] transition-[width] duration-700 ease-out motion-reduce:transition-none ${
+              settled ? "w-full" : "w-0"
+            }`}
+          />
+        </div>
+        <p className="mt-4 text-xs text-slate-500">
+          {settled ? "Matched automatically by reference, just now" : "Waiting for payment"}
+        </p>
+      </div>
     </div>
   );
 }
 
-function StatusTag({ status }: { status: "live" | "soon" }) {
-  if (status === "live") {
-    return (
-      <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
-        Live
-      </span>
-    );
-  }
-  return (
-    <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-300">
-      Soon
-    </span>
-  );
-}
-
-const STAGES: { title: string; lang: string; lines: string[] }[] = [
-  { title: "Ingestor", lang: "Rust", lines: ["RPC stream", "cursors", "retry / backfill"] },
-  { title: "Decoders", lang: "Rust", lines: ["token / SAC", "swaps", "your own…"] },
-  { title: "Postgres", lang: "SQL", lines: ["events", "cursors", "migrations"] },
-  { title: "API", lang: "TypeScript", lines: ["REST + GraphQL", "SDK", "dashboard"] },
+const STEPS = [
+  {
+    title: "Create an invoice",
+    body: "It gets a reference number, like 100001, and a payment address built from your account and that number.",
+  },
+  {
+    title: "Your customer pays",
+    body: "Either to that address with no memo, or to your usual address with the reference as the memo. Any Stellar wallet works.",
+  },
+  {
+    title: "Stardex records it",
+    body: "It follows every payment into your address, in any asset, straight from the Stellar network.",
+  },
+  {
+    title: "The invoice updates",
+    body: "Paid, partly paid or overpaid, with the time it arrived. Export payments and invoices as CSV for your books.",
+  },
 ];
 
-function Pipeline() {
+function HowItWorks() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
-      <SectionHeading
-        eyebrow="Architecture"
-        title="A neutral core, with pluggable decoders"
-        subtitle="The ingestor knows how to read the chain; decoders know what each contract's events mean. Adding a contract is a new decoder, never a change to the engine."
-      />
-      <div className="mt-12 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
-        {STAGES.map((stage, i) => (
-          <Stage key={stage.title} stage={stage} last={i === STAGES.length - 1} />
+      <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">How it works</h2>
+      <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {STEPS.map((step, i) => (
+          <li key={step.title} className="border-t border-[var(--color-border)] pt-5">
+            <span className="text-sm text-[var(--color-accent)] tabular-nums">{i + 1}</span>
+            <h3 className="mt-2 font-semibold">{step.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
+          </li>
         ))}
+      </ol>
+    </section>
+  );
+}
+
+const REASONS = [
+  ["No reference", "The customer sent no memo and did not use the invoice address."],
+  ["Unknown reference", "The memo does not match any invoice on that account."],
+  ["Wrong asset", "The invoice asked for USDC and XLM arrived, for example."],
+  ["Cancelled invoice", "The payment named an invoice you had already cancelled."],
+];
+
+function NeedsAPerson() {
+  return (
+    <section className="border-y border-[var(--color-border)] bg-[var(--color-surface)]/30">
+      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            When a payment cannot be matched, you see why
+          </h2>
+          <p className="mt-4 max-w-lg text-slate-400">
+            Customers forget memos. Stardex does not guess. It puts the payment in a review list
+            with the reason, and you match it to the right invoice or set it aside in one step.
+          </p>
+          <dl className="mt-8 divide-y divide-[var(--color-border)] border-y border-[var(--color-border)]">
+            {REASONS.map(([term, detail]) => (
+              <div key={term} className="grid gap-1 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4">
+                <dt className="text-sm font-medium text-slate-200">{term}</dt>
+                <dd className="text-sm text-slate-400">{detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">What it does not do</h2>
+          <p className="mt-4 max-w-lg text-slate-400">
+            Stardex is a bookkeeping tool, kept narrow on purpose.
+          </p>
+          <ul className="mt-8 space-y-4 text-sm text-slate-300">
+            <li>It never holds keys, signs transactions or moves funds. It only reads the network.</li>
+            <li>It does not convert currency. Cashing out stays with your anchor or exchange.</li>
+            <li>It does not calculate tax. It gives your accountant clean records to work from.</li>
+          </ul>
+          <p className="mt-8 text-sm text-slate-400">
+            It suits anyone who takes many payments into one Stellar address: marketplaces,
+            payment apps, SaaS products, NGOs and freelancers.
+          </p>
+        </div>
       </div>
     </section>
   );
 }
 
-function Stage({
-  stage,
-  last,
-}: {
-  stage: { title: string; lang: string; lines: string[] };
-  last: boolean;
-}) {
-  return (
-    <>
-      <div className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/50 p-5">
-        <div className="mb-2 flex items-center justify-between">
-          <h3 className="font-semibold">{stage.title}</h3>
-          <span className="font-mono text-[10px] uppercase tracking-wide text-slate-500">
-            {stage.lang}
-          </span>
-        </div>
-        <ul className="space-y-1 text-xs text-slate-400">
-          {stage.lines.map((line) => (
-            <li key={line}>• {line}</li>
-          ))}
-        </ul>
-      </div>
-      {!last && (
-        <span className="self-center text-[var(--color-accent)] lg:rotate-0 rotate-90">→</span>
-      )}
-    </>
-  );
-}
+const REPOS = [
+  { name: "stardex", role: "Engine that records payments and matches them to invoices", stack: "Rust, Postgres" },
+  { name: "stardex-backend", role: "HTTP API for invoices, payments and exports", stack: "TypeScript, Node" },
+  { name: "stardex-sdk", role: "Typed client, published on npm as @stardex/sdk", stack: "TypeScript" },
+  { name: "stardex-frontend", role: "This web app", stack: "React, Vite" },
+];
 
-function CallToAction() {
+function Repos() {
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-8">
-      <Panel>
-        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Point Stardex at a contract and start capturing history
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-slate-400">
-          Self-hostable, open source, and built on plain Rust, Postgres, and TypeScript.
-          Clone it and run it.
-        </p>
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryLink to="/explorer">Explore live events →</PrimaryLink>
-          <ExternalButton href={GITHUB_URL} variant="primary">
-            <span className="opacity-80">View on</span> GitHub ↗
-          </ExternalButton>
-        </div>
-      </Panel>
+    <section className="mx-auto max-w-6xl px-6 py-20">
+      <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Open source, in four parts</h2>
+      <p className="mt-4 max-w-2xl text-slate-400">
+        Run it yourself with plain Rust, Postgres and TypeScript. Contributions are welcome in
+        every repo.
+      </p>
+      <ul className="mt-8 divide-y divide-[var(--color-border)] border-y border-[var(--color-border)]">
+        {REPOS.map((repo) => (
+          <li
+            key={repo.name}
+            className="grid gap-1 py-4 sm:grid-cols-[12rem_1fr_auto] sm:items-baseline sm:gap-6"
+          >
+            <a
+              href={`${GITHUB_URL}/${repo.name}`}
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono text-sm text-[var(--color-accent)] hover:underline"
+            >
+              {repo.name}
+            </a>
+            <span className="text-sm text-slate-300">{repo.role}</span>
+            <span className="text-sm text-slate-500 sm:text-right">{repo.stack}</span>
+          </li>
+        ))}
+      </ul>
     </section>
-  );
-}
-
-function Panel({ children }: { children: ReactNode }) {
-  return (
-    <div className="card-glow relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)]/60 px-6 py-14 text-center">
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
-      <div className="relative">{children}</div>
-    </div>
   );
 }

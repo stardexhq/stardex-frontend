@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useHealth, type HealthStatus } from "../hooks/useHealth";
 import { API_BASE_URL } from "../config";
-import { GITHUB_URL, NAV_LINKS } from "../site";
+import { NAV_LINKS } from "../site";
 
 const DOT: Record<HealthStatus, string> = {
   checking: "bg-amber-400",
@@ -67,14 +67,6 @@ export function NavBar() {
 
         <div className="hidden items-center gap-3 md:flex">
           <HealthPill />
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm text-slate-300 transition hover:bg-[var(--color-surface)]"
-          >
-            GitHub
-          </a>
         </div>
 
         <button
@@ -100,14 +92,6 @@ export function NavBar() {
                 {l.label}
               </NavLink>
             ))}
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-md px-3 py-1.5 text-sm text-slate-400 hover:text-white"
-            >
-              GitHub ↗
-            </a>
             <div className="px-3 py-2">
               <HealthPill />
             </div>

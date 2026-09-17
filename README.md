@@ -8,10 +8,13 @@ Live demo: [stardex.onrender.com](https://stardex.onrender.com)
 
 ## What's here today
 
-- **Home page** explaining the project.
-- **Event explorer**: a filterable, paginated table of indexed events (by contract ID and event kind).
+- **Invoices.** Create invoices for a watched Stellar account, see how much of each has arrived, and filter by status.
+- **Invoice page.** How the customer pays (a muxed address, or the account plus a memo ID, and a link that opens a Stellar wallet), the amount still owed, and every payment applied.
+- **Payments.** Everything that arrived, with the ones that could not be matched automatically waiting for review. Match them to an invoice by hand or ignore them, and download payments or invoices as CSV.
+- **Explorer.** A filterable, paginated table of indexed contract events.
+- **Settings.** Paste the backend admin key once; this browser keeps it in local storage.
 
-Invoice and payment pages are coming next as part of the reconciliation work.
+Invoices, payments and exports need the backend's `STARDEX_ADMIN_KEY`. Without it those pages ask you to add the key in Settings.
 
 ## Run it locally
 

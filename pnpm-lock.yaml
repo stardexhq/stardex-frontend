@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@stardex/sdk':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       react:
         specifier: ^19.2.0
         version: 19.3.0
@@ -513,8 +513,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@stardex/sdk@0.1.0':
-    resolution: {integrity: sha512-GaGVGF8lbOxC7hOHn0VZcWgw/ZwuFu0mhc1ClIp/mPp/GSBgLsFEFjzX0QY3YN9E4z106t1OLXTYTQFt20Uy7Q==}
+  '@stardex/sdk@0.2.0':
+    resolution: {integrity: sha512-QetfVx3iAH/NA2TspK13QWmOkE4V+n+K6Q/vy4Tw7tlr9SYgfrcUagK+MvqRypxRCxEWA2fFSLnWjuo23ZefdA==}
 
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
@@ -1674,7 +1674,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.3':
     optional: true
 
-  '@stardex/sdk@0.1.0': {}
+  '@stardex/sdk@0.2.0': {}
 
   '@tailwindcss/node@4.3.3':
     dependencies:

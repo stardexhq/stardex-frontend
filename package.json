@@ -11,7 +11,10 @@
   },
   "packageManager": "pnpm@10.26.2",
   "pnpm": {
-    "onlyBuiltDependencies": ["@tailwindcss/oxide", "esbuild"]
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
+      "esbuild"
+    ]
   },
   "scripts": {
     "dev": "vite",
@@ -21,7 +24,7 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
-    "@stardex/sdk": "^0.1.0",
+    "@stardex/sdk": "^0.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.1.1"

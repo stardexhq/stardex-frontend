@@ -1,4 +1,5 @@
-import { PrimaryLink } from "../components/ui";
+import { Link } from "react-router-dom";
+import { buttonPrimary } from "../lib/styles";
 
 export function NotFound() {
   return (
@@ -6,10 +7,12 @@ export function NotFound() {
       <p className="font-mono text-6xl font-bold text-[var(--color-accent)]">404</p>
       <h1 className="mt-4 text-2xl font-bold tracking-tight">Page not found</h1>
       <p className="mt-2 max-w-md text-sm text-slate-400">
-        That route isn&apos;t indexed. Head back home or jump straight to the live explorer.
+        There is no page at this address. Your invoices and payments are one click away.
       </p>
       <div className="mt-8">
-        <PrimaryLink to="/">Back to home</PrimaryLink>
+        <Link to="/invoices" className={buttonPrimary}>
+          Open invoices
+        </Link>
       </div>
     </div>
   );

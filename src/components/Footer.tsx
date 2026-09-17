@@ -10,7 +10,7 @@ export function Footer() {
           <div>
             <p className="text-sm font-semibold">Stardex</p>
             <p className="text-xs text-slate-500">
-              Open-source indexer for Stellar / Soroban · Apache-2.0
+              Open source payment reconciliation for Stellar. Apache-2.0.
             </p>
           </div>
         </div>
